@@ -1,11 +1,12 @@
+var Game = require('../src/game');
 var assert = require('assert');
-describe('drawBall()', function() {
-  it('should call beginPath, arc, fill and closePath on context', function() {
+describe('Game', function() {
+  it('#drawball should call beginPath, arc, fill and closePath on context', function() {
     var contextDouble = {
       beginPath: function(){
         beginPathHasBeenCalled = true;
       },
-      arc: function(x, y, ballRadius, 0, Math.PI*2){
+      arc: function(x, y, ballRadius, startAngle, endAngle){
         this.x = x;
         this.y = y;
         this.ballRadius = ballRadius;
@@ -17,7 +18,15 @@ describe('drawBall()', function() {
         closePathHasBeenCalled = true;
       },
     };
-    drawBall(0, 0, 10, contextDouble);
+    var documentDouble = {
+      getElementById: function(id){
+        return {getContext: function (dimension){
+          return contextDouble;
+        }};
+      }
+    };
+    var game = new Game(documentDouble);
+    game.drawBall(0, 0, 10, contextDouble);
     assert.equal(beginPathHasBeenCalled, true);
     assert.equal(contextDouble.x, 0);
     assert.equal(contextDouble.y, 0);
@@ -26,4 +35,5 @@ describe('drawBall()', function() {
     assert.equal(fillHasBeenCalled, true);
     assert.equal(closePathHasBeenCalled, true);
   });
+
 });

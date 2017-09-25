@@ -12,9 +12,14 @@
 
 <canvas id="myCanvas" width="480" height="320"></canvas>
 
-<script src="src/main.js"></script>
+<script src="src/game.js"></script>
 <script>
-  setInterval(draw, 50);
+  game = new Game();
+  // console.log(game.context);
+  // game.drawBackground();
+  // game.drawBall(200,0,10);
+  // game.context.clearRect(0,0,480,320)
+  setInterval(function(){game.draw()}, 50);
 </script>
 
 
